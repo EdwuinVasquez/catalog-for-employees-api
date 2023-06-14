@@ -1,9 +1,10 @@
 <?php 
 	// Obtener informacion de usuarios 
-  Flight::route('GET /usuarios', function () {
-    $sentencia = Flight::db() ->prepare("CALL PROCEDURE_LISTAR_USUARIO('')");
+	Flight::route('DELETE /usuario', function () {
+		$cedula = Flight::request()->data->cedula;
+    $sentencia = Flight::db()->prepare("CALL PROCEDURE_ELIMINAR_USUARIO('$cedula')");
 		$sentencia->execute();
 		$datos=$sentencia->fetchAll();
-		Flight::json($datos);
+		Flight::json($cedula);
   });
 ?>

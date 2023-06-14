@@ -7,6 +7,8 @@ Flight::register('db', 'PDO', array('mysql:host=10.10.10.9;dbname=VENTAEMPLEADOS
 
 require('./Get.php');
 require('./Post.php');
+require('./Put.php');
+require('./Delete.php');
 
 Flight::route('/', function () {
 	echo 'hello world!';
