@@ -1,14 +1,17 @@
 <?php 
-  Flight::route('POST /usuarios', function () {
-    //Obtener datos recibidos
-		$cedula =(Flight::request()->data->cedula);
-		//Declara consulta SQL
-		$sql = "CALL PROCEDURE_LISTAR_USUARIO('?')";
-    $sentencia = Flight::db() ->prepare($sql);
-		//Preparar datos
-		$sentencia->bindParam(1,$cedula);
-		//Ejecucion del querry y lectura
+	Flight::route('POST /usuario', function () {
+    $cedula = Flight::request()->data->cedula;
+    $nombre = Flight::request()->data->nombre;
+    $rol = Flight::request()->data->rol;
+    $clave = Flight::request()->data->clave;
+    $pregunta = Flight::request()->data->pregunta;
+    $respueta = Flight::request()->data->respueta;
+    $activado = Flight::request()->data->activado;
+    $verificado = Flight::request()->data->verificado;
+    $contacto = Flight::request()->data->contacto;
+    $sentencia = Flight::db()->prepare("CALL PROCEDURE_INGRESAR_USUARIO('$cedula', '$nombre', '$rol', '$clave', '$pregunta', '$respueta', '$activado', '$verificado', '$contacto')");
 		$sentencia->execute();
-		Flight::jsonp(["Usuario registrado"]);
+		$datos=$sentencia->fetchAll();
+		Flight::json($datos);
   });
 ?>
