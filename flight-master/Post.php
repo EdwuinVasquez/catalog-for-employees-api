@@ -1,5 +1,6 @@
 <?php 
-	Flight::route('POST /usuario', function () {
+	// envia un nuevo registro
+	Flight::route('POST /pos/usuario/registro', function () {
     $cedula = Flight::request()->data->cedula;
     $nombre = Flight::request()->data->nombre;
     $rol = Flight::request()->data->rol;
