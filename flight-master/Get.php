@@ -7,4 +7,13 @@
 		$datos=$sentencia->fetchAll();
 		Flight::json($datos);
   });
+
+  // Obtener informacion de basica producto 
+	Flight::route('GET /getProductoBase', function () {
+		$sql = "CALL PROCEDURE_LISTAR_PRODUCTOS()";
+    	$sentencia = Flight::db() ->prepare($sql);
+		$sentencia->execute();
+		$datos=$sentencia->fetchAll();
+		Flight::json($datos);
+  });
 ?>

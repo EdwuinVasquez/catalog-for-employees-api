@@ -50,4 +50,42 @@
 		$datos=$sentencia->fetchAll();
 		Flight::json($datos);
   });
+
+  // Actualizar estado del producto
+	Flight::route('PUT /mod/producto/estado', function () {
+		$codigo = Flight::request()->data->codigo;
+		$estado = Flight::request()->data->estado;
+    $sentencia = Flight::db() ->prepare("CALL PROCEDURE_MODIFICAR_ESTADOPRODUCTO_PRODUCTO('$codigo','$estado')");
+		$sentencia->execute();
+		$datos=$sentencia->fetchAll();
+		Flight::json($datos);
+  });
+
+  // Actualizar disponibilidad del producto
+	Flight::route('PUT /mod/producto/disponibilidad', function () {
+		$codigo = Flight::request()->data->codigo;
+		$estado = Flight::request()->data->estado;
+    $sentencia = Flight::db() ->prepare("CALL PROCEDURE_MODIFICAR_DISPONIBILIDADPRODUCTO_PRODUCTO('$codigo','$estado')");
+		$sentencia->execute();
+		$datos=$sentencia->fetchAll();
+		Flight::json($datos);
+  });
+
+  // Actualizar informacion del producto
+	Flight::route('PUT /mod/producto/datosbase', function () {
+		$codigo = Flight::request()->data->codigo;
+        $nombre = Flight::request()->data->nombre;
+        $img = Flight::request()->data->img;
+        $iva = Flight::request()->data->iva;
+        $descuento = Flight::request()->data->descuento;
+        $precio = Flight::request()->data->precio;
+        $detalles = Flight::request()->data->detalles;
+        $disponible = Flight::request()->data->disponible;
+        $estado = Flight::request()->data->estado;
+        $categoria = Flight::request()->data->categoria;
+    $sentencia = Flight::db() ->prepare("CALL PROCEDURE_MODIFICAR_PRODUCTO('$codigo', '$nombre', '$img', '$iva', '$descuento', '$precio', '$detalles', '$disponible', '$estado', '$categoria')");
+		$sentencia->execute();
+		$datos=$sentencia->fetchAll();
+		Flight::json($datos);
+  });
 ?>

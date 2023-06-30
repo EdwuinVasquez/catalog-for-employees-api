@@ -15,4 +15,22 @@
 		$datos=$sentencia->fetchAll();
 		Flight::json($datos);
   });
+
+  // envia un nuevo producto
+	Flight::route('POST /pos/producto/base', function () {
+    $codigo = Flight::request()->data->codigo;
+    $nombre = Flight::request()->data->nombre;
+    $img = Flight::request()->data->img;
+    $iva = Flight::request()->data->iva;
+    $descuento = Flight::request()->data->descuento;
+    $precio = Flight::request()->data->precio;
+    $detalles = Flight::request()->data->detalles;
+    $disponible = Flight::request()->data->disponible;
+    $estado = Flight::request()->data->estado;
+    $categoria = Flight::request()->data->categoria;
+    $sentencia = Flight::db()->prepare("CALL PROCEDURE_INGRESAR_USUARIO('$codigo', '$nombre', '$img', '$iva', '$descuento', '$precio', '$detalles', '$disponible', '$estado', '$categoria')");
+		$sentencia->execute();
+		$datos=$sentencia->fetchAll();
+		Flight::json($datos);
+  });
 ?>
