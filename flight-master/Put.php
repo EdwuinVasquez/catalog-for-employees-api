@@ -88,4 +88,29 @@
 		$datos=$sentencia->fetchAll();
 		Flight::json($datos);
   });
+
+    // Actualizar estado venta
+	Flight::route('PUT /mod/venta/estado', function () {
+		$codigo = Flight::request()->data->codigo;
+		$estado = Flight::request()->data->estado;
+		$cedula = Flight::request()->data->cedula;
+    $sentencia = Flight::db() ->prepare("CALL PROCEDURE_MODIFICAR_ESTADOVENTA('$codigo','$estado','$cedula')");
+		$sentencia->execute();
+		$datos=$sentencia->fetchAll();
+		Flight::json($datos);
+  });
+
+   // Actualizar venta
+	Flight::route('PUT /mod/venta/modificar', function () {
+		$codigo = Flight::request()->data->codigo;
+		$iva = Flight::request()->data->iva;
+		$descuento = Flight::request()->data->descuento;
+		$total = Flight::request()->data->total;
+		$estado = Flight::request()->data->estado;
+		$cedula = Flight::request()->data->cedula;
+    $sentencia = Flight::db() ->prepare("CALL PROCEDURE_MODIFICAR_VENTA('$codigo','$iva','$descuento','$total','$estado','$cedula')");
+		$sentencia->execute();
+		$datos=$sentencia->fetchAll();
+		Flight::json($datos);
+  });
 ?>
