@@ -66,4 +66,71 @@
 		$datos=$sentencia->fetchAll();
 		Flight::json($datos);
   });
+
+    // envia una categoria
+	Flight::route('POST /pos/categoria/nueva', function () {
+    $nombre = Flight::request()->data->nombre;
+    $sentencia = Flight::db()->prepare("CALL PROCEDURE_INGRESAR_CATEGORIA('$nombre')");
+		$sentencia->execute();
+		$datos=$sentencia->fetchAll();
+		Flight::json($datos);
+  });
+
+  // envia dato de la app
+	Flight::route('POST /pos/aplicacion/alert', function () {
+    $estado = Flight::request()->data->estado;
+    $sentencia = Flight::db()->prepare("CALL PROCEDURE_INGRESAR_APLICACION('$estado')");
+		$sentencia->execute();
+		$datos=$sentencia->fetchAll();
+		Flight::json($datos);
+  });
+
+  //Subir imagen
+  Flight::route('POST /pos/subirImagen', function(){
+    $requestData = Flight::request()->data;
+    $imageBase64 = $requestData['image'];
+    $uploadPath = '../galeria/';
+    $fileName =  uniqid() . $requestData['nombre']; 
+
+    $imageData = base64_decode($imageBase64);
+
+    if(file_put_contents($uploadPath . $fileName, $imageData)){
+      // Si la imagen se guardó correctamente
+      Flight::json(['status' => 'success', 'message' => 'Imagen guardada correctamente']);
+    } else {
+      // Si ocurrió un error al guardar la imagen
+      Flight::json(['status' => 'error', 'message' => 'Error al guardar la imagen']);
+    }
+  });
+
+    // envia un producto
+	Flight::route('POST /pos/producto/nuevo', function () {
+    $id = Flight::request()->data->id;
+    $nombre = Flight::request()->data->nombre;
+    $img = Flight::request()->data->img;
+    $iva = Flight::request()->data->iva;
+    $descuento = Flight::request()->data->descuento;
+    $valorSinIva = Flight::request()->data->valorSinIva;
+    $detalles = Flight::request()->data->detalles;
+    $productoDisponible = Flight::request()->data->productoDisponible;
+    $categoriaId = Flight::request()->data->categoriaId;
+    $sentencia = Flight::db()->prepare("CALL PROCEDURE_INGRESAR_PRODUCTO('$id','$nombre','$img','$iva','$descuento','$valorSinIva','$detalles','$productoDisponible','6','$categoriaId')");
+		$sentencia->execute();
+		$datos=$sentencia->fetchAll();
+		Flight::json($datos);
+  });
+
+    // envia informacion de un producto
+	Flight::route('POST /pos/productoInfo/nuevo', function () {
+    $id = Flight::request()->data->id;
+    $estilo = Flight::request()->data->estilo;
+    $tipoContenido = Flight::request()->data->tipoContenido;
+    $contenido = Flight::request()->data->contenido;
+    $imgExtra = Flight::request()->data->imgExtra;
+    $disponible = Flight::request()->data->disponible;
+    $sentencia = Flight::db()->prepare("CALL PROCEDURE_INGRESAR_PRODUCTOINFO('$id','$estilo','$tipoContenido','$contenido','$imgExtra','$disponible')");
+		$sentencia->execute();
+		$datos=$sentencia->fetchAll();
+		Flight::json($datos);
+  });
 ?>

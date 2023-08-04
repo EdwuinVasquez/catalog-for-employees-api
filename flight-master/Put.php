@@ -19,14 +19,31 @@
   });
 
 	// Actualizar informacion del usuario
-	Flight::route('PUT /mod/usuario/datos', function () {
+	Flight::route('PUT /mod/usuario/pregunta', function () {
 		$cedula = Flight::request()->data->cedula;
-		$nombre = Flight::request()->data->nombre;
-		$clave = Flight::request()->data->clave;
 		$pregunta = Flight::request()->data->pregunta;
 		$respuesta = Flight::request()->data->respuesta;
+    $sentencia = Flight::db() ->prepare("CALL PROCEDURE_MODIFICARPREGUNTA_USUARIO('$cedula','$pregunta','$respuesta')");
+		$sentencia->execute();
+		$datos=$sentencia->fetchAll();
+		Flight::json($datos);
+  });
+
+  	// Actualizar informacion del usuario
+	Flight::route('PUT /mod/usuario/nombre', function () {
+		$cedula = Flight::request()->data->cedula;
+		$nombre = Flight::request()->data->nombre;
+    $sentencia = Flight::db() ->prepare("CALL PROCEDURE_MODIFICARNOMBRE_USUARIO('$cedula','$nombre')");
+		$sentencia->execute();
+		$datos=$sentencia->fetchAll();
+		Flight::json($datos);
+  });
+  
+  // Actualizar informacion del usuario
+	Flight::route('PUT /mod/usuario/contacto', function () {
+		$cedula = Flight::request()->data->cedula;
 		$contacto = Flight::request()->data->contacto;
-    $sentencia = Flight::db() ->prepare("CALL PROCEDURE_MODIFICAR_USUARIO('$cedula','$nombre','$clave','$pregunta','$respuesta','$contacto')");
+    $sentencia = Flight::db() ->prepare("CALL PROCEDURE_MODIFICARCONCTACTO_USUARIO('$cedula','$contacto')");
 		$sentencia->execute();
 		$datos=$sentencia->fetchAll();
 		Flight::json($datos);
@@ -71,24 +88,6 @@
 		Flight::json($datos);
   });
 
-  // Actualizar informacion del producto
-	Flight::route('PUT /mod/producto/datosbase', function () {
-		$codigo = Flight::request()->data->codigo;
-        $nombre = Flight::request()->data->nombre;
-        $img = Flight::request()->data->img;
-        $iva = Flight::request()->data->iva;
-        $descuento = Flight::request()->data->descuento;
-        $precio = Flight::request()->data->precio;
-        $detalles = Flight::request()->data->detalles;
-        $disponible = Flight::request()->data->disponible;
-        $estado = Flight::request()->data->estado;
-        $categoria = Flight::request()->data->categoria;
-    $sentencia = Flight::db() ->prepare("CALL PROCEDURE_MODIFICAR_PRODUCTO('$codigo', '$nombre', '$img', '$iva', '$descuento', '$precio', '$detalles', '$disponible', '$estado', '$categoria')");
-		$sentencia->execute();
-		$datos=$sentencia->fetchAll();
-		Flight::json($datos);
-  });
-
     // Actualizar estado venta
 	Flight::route('PUT /mod/venta/estado', function () {
 		$codigo = Flight::request()->data->codigo;
@@ -109,6 +108,66 @@
 		$estado = Flight::request()->data->estado;
 		$cedula = Flight::request()->data->cedula;
     $sentencia = Flight::db() ->prepare("CALL PROCEDURE_MODIFICAR_VENTA('$codigo','$iva','$descuento','$total','$estado','$cedula')");
+		$sentencia->execute();
+		$datos=$sentencia->fetchAll();
+		Flight::json($datos);
+  });
+
+    // Actualizar informacion de la categoria
+	Flight::route('PUT /mod/categoria/estado', function () {
+		$codigo = Flight::request()->data->codigo;
+		$estado = Flight::request()->data->estado;
+    $sentencia = Flight::db() ->prepare("CALL PROCEDURE_MODIFICAR_ESTADOCATEGORIA('$codigo','$estado')");
+		$sentencia->execute();
+		$datos=$sentencia->fetchAll();
+		Flight::json($datos);
+  });
+
+  // Actualizar informacion de la categoria
+	Flight::route('PUT /mod/categoria/nombre', function () {
+		$codigo = Flight::request()->data->codigo;
+		$nombre = Flight::request()->data->nombre;
+    $sentencia = Flight::db() ->prepare("CALL PROCEDURE_MODIFICAR_NOMBRECATEGORIA('$codigo','$nombre')");
+		$sentencia->execute();
+		$datos=$sentencia->fetchAll();
+		Flight::json($datos);
+  });
+
+  // Actualizar el iva de los productos vinculados a una categoria
+	Flight::route('PUT /mod/categoria/iva', function () {
+		$codigo = Flight::request()->data->codigo;
+		$iva = Flight::request()->data->iva;
+    $sentencia = Flight::db() ->prepare("CALL PROCEDURE_MODIFICAR_CATEGORIAIVA('$codigo','$iva')");
+		$sentencia->execute();
+		$datos=$sentencia->fetchAll();
+		Flight::json($datos);
+  });
+
+  // Actualizar el descuento de los productos vinculados a una categoria
+	Flight::route('PUT /mod/categoria/descuento', function () {
+		$codigo = Flight::request()->data->codigo;
+		$descuento = Flight::request()->data->descuento;
+    $sentencia = Flight::db() ->prepare("CALL PROCEDURE_MODIFICAR_CATEGORIADESCUENTO('$codigo','$descuento')");
+		$sentencia->execute();
+		$datos=$sentencia->fetchAll();
+		Flight::json($datos);
+  });
+
+  // Actualizar el valor de los productos vinculados a una categoria
+	Flight::route('PUT /mod/categoria/valor', function () {
+		$codigo = Flight::request()->data->codigo;
+		$valor = Flight::request()->data->valor;
+    $sentencia = Flight::db() ->prepare("CALL PROCEDURE_MODIFICAR_CATEGORIAVALORNUMERO('$codigo','$valor')");
+		$sentencia->execute();
+		$datos=$sentencia->fetchAll();
+		Flight::json($datos);
+  });
+
+  // Actualizar el porcentaje de los productos vinculados a una categoria
+	Flight::route('PUT /mod/categoria/porcentaje', function () {
+		$codigo = Flight::request()->data->codigo;
+		$porcentaje = Flight::request()->data->porcentaje;
+    $sentencia = Flight::db() ->prepare("CALL PROCEDURE_MODIFICAR_CATEGORIAVALORPORCENTAJE('$codigo','$porcentaje')");
 		$sentencia->execute();
 		$datos=$sentencia->fetchAll();
 		Flight::json($datos);
