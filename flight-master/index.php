@@ -13,9 +13,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 header('Access-Control-Allow-Origin: *');
 header('Content-Type: application/json');
 
-
 // Register class with constructor parameters
-Flight::register('db', 'PDO', array('mysql:host=10.10.10.9;dbname=VENTAEMPLEADOS','VENTAS','$APPRIMO2023'));
+require('./eve.php');
+Flight::register('db', 'PDO', array('mysql:host=' . $HOST . ';dbname=' . $DB, $USER, $PASSWORD));
 
 require('./Get.php');
 require('./Post.php');

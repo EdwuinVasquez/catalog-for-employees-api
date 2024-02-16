@@ -90,7 +90,7 @@
     $requestData = Flight::request()->data;
     $imageBase64 = $requestData['image'];
     $uploadPath = '../galeria/';
-    $fileName =  uniqid() . $requestData['nombre']; 
+    $fileName =  $requestData['nombre']; 
 
     $imageData = base64_decode($imageBase64);
 
